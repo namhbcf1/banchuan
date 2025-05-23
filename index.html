@@ -1090,6 +1090,60 @@
                 el.classList.add('animate__animated','animate__fadeInUp');
             });
         });
+
+        // --- Progress Stepper Real-time Highlight ---
+        function updateProgressSteps() {
+            // Bước 1: Ngân sách
+            const budgetValue = document.getElementById('budget-range').value;
+            const step1 = document.querySelector('.progress-step[data-step="1"]');
+            if (budgetValue && parseInt(budgetValue) > 0) {
+                step1.classList.add('active');
+            } else {
+                step1.classList.remove('active');
+            }
+            // Bước 2: CPU
+            const cpuType = document.getElementById('cpu-type').value;
+            const step2 = document.querySelector('.progress-step[data-step="2"]');
+            if (cpuType) {
+                step2.classList.add('active');
+            } else {
+                step2.classList.remove('active');
+            }
+            // Bước 3: Game
+            const gameGenre = document.getElementById('game-genre').value;
+            const step3 = document.querySelector('.progress-step[data-step="3"]');
+            if (gameGenre) {
+                step3.classList.add('active');
+            } else {
+                step3.classList.remove('active');
+            }
+            // Bước 4: Linh kiện (chỉ cần chọn 1 linh kiện)
+            const cpu = document.getElementById('cpu').value;
+            const vga = document.getElementById('vga').value;
+            const step4 = document.querySelector('.progress-step[data-step="4"]');
+            if (cpu && vga) {
+                step4.classList.add('active');
+            } else {
+                step4.classList.remove('active');
+            }
+            // Bước 5: Hoàn thành (nếu tất cả các bước trên đã chọn)
+            const step5 = document.querySelector('.progress-step[data-step="5"]');
+            if (step1.classList.contains('active') && step2.classList.contains('active') && step3.classList.contains('active') && step4.classList.contains('active')) {
+                step5.classList.add('active');
+            } else {
+                step5.classList.remove('active');
+            }
+        }
+        // Lắng nghe sự kiện thay đổi
+        ['budget-range','cpu-type','game-genre','cpu','vga'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', updateProgressSteps);
+        });
+        // Lắng nghe click vào game-card để cập nhật ngay
+        const gameCards = document.querySelectorAll('.game-card');
+        gameCards.forEach(card => card.addEventListener('click', updateProgressSteps));
+        // Gọi lần đầu khi load trang
+        updateProgressSteps();
     </script>
 </body>
 
